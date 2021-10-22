@@ -118,4 +118,5 @@ public class DictionaryCommandline extends DictionaryManagement {
         super.getWords().add(word);
     }
 
+
 }

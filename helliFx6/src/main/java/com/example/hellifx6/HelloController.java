@@ -8,10 +8,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+
+
 public class HelloController {
     DictionaryCommandline dc = new DictionaryCommandline();
+
     @FXML
     private Button btn;
+
+    @FXML
+    private Button btn_speak;
 
     @FXML
     private Button btn_add;
@@ -80,10 +86,19 @@ public class HelloController {
     void desearch(ActionEvent event) {
         String word = txtf.getText();
         //dc.insertFromFile();
+
         String data1 =   dc.dictionarySearcher_2(word);
         String data2 = dc.dictionarySearcher_3(word);
         textarea_2.setText(data2);
         textarea.setText(data1);
+
+    }
+
+    @FXML
+    void despeak(ActionEvent event) {
+        String word = txtf.getText();
+        VoiceImplement voiceImplement = new VoiceImplement();
+        voiceImplement.TextToSpeech(word);
     }
 
 }
