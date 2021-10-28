@@ -4,14 +4,22 @@ package com.example.hellifx6;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
+import com.sun.javafx.event.EventHandlerManager;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-
-public class HelloController {
+public class HelloController implements Initializable {
     DictionaryCommandline dc = new DictionaryCommandline();
+
 
     @FXML
     private Button btn;
@@ -87,9 +95,9 @@ public class HelloController {
         String word = txtf.getText();
         //dc.insertFromFile();
 
-        String data1 =   dc.dictionarySearcher_2(word);
-        String data2 = dc.dictionarySearcher_3(word);
-        textarea_2.setText(data2);
+        String data1 =   dc.dictionarySearcher_2_1(word);
+       // String data2 = dc.dictionarySearcher_3(word);
+        //textarea_2.setText(data2);
         textarea.setText(data1);
 
     }
@@ -101,4 +109,16 @@ public class HelloController {
         voiceImplement.TextToSpeech(word);
     }
 
+    @FXML
+    void desuggest(KeyEvent event) {
+        String word = txtf.getText();
+        String data2 = dc.dictionarySearcher_3_1(word);
+        textarea_2.setText(data2);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //TextFields.bindAutoCompletion(txtf, "hello");
+
+    }
 }

@@ -15,7 +15,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="txtf" layoutX="22.0" layoutY="86.0" prefHeight="47.0" prefWidth="286.0">
+                  <TextField fx:id="txtf" layoutX="22.0" layoutY="86.0" onKeyReleased="#desuggest" prefHeight="47.0" prefWidth="286.0">
                    <font>
                        <Font size="18.0" />
                    </font>

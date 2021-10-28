@@ -54,17 +54,43 @@ public class DictionaryCommandline extends DictionaryManagement {
         }
     }
 
+    public int levenshteinDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+
+        int[][] cost = new int[m + 1][n + 1];
+        for(int i = 0; i <= m; i++)
+            cost[i][0] = i;
+        for(int i = 1; i <= n; i++)
+            cost[0][i] = i;
+
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(word1.charAt(i) == word2.charAt(j))
+                    cost[i + 1][j + 1] = cost[i][j];
+                else {
+                    int a = cost[i][j];
+                    int b = cost[i][j + 1];
+                    int c = cost[i + 1][j];
+                    cost[i + 1][j + 1] = a < b ? (Math.min(a, c)) : (Math.min(b, c));
+                    cost[i + 1][j + 1]++;
+                }
+            }
+        }
+        return cost[m][n];
+    }
+
     public String dictionarySearcher_2(String word) {
         String s = "";
         int limit = 0;
         for (int i = 0; i < super.getWords().size(); i++) {
-            if (super.getWords().get(i).getWord_target().contains(word)) {
+             if (super.getWords().get(i).getWord_target().contains(word)) {
                 s = s + super.getWords().get(i).getWord_target();
                 s = s + "       ";
                 s = s + super.getWords().get(i).getWord_explain() + "\n";
                 limit = limit + 1;
             }
-            if (limit > 10) {
+            if (limit > 20) {
                 break;
             }
         }
@@ -75,12 +101,17 @@ public class DictionaryCommandline extends DictionaryManagement {
         String s = "";
         int limit = 0;
         for (int i = 0; i < super.getWords().size(); i++) {
-            if (super.getWords().get(i).getWord_target().contains(word)) {
+            if (super.getWords().get(i).getWord_target().replaceAll("\\s+","").equalsIgnoreCase(word)) {
+                s = super.getWords().get(i).getWord_target()+ "\n" + s;
+
+                limit = limit + 1;
+            }
+            else if (super.getWords().get(i).getWord_target().contains(word)) {
                 s = s + super.getWords().get(i).getWord_target();
                 s = s + "\n";
                 limit = limit + 1;
             }
-            if (limit > 50) {
+            if (limit > 100) {
                 break;
             }
         }
@@ -118,5 +149,44 @@ public class DictionaryCommandline extends DictionaryManagement {
         super.getWords().add(word);
     }
 
+    public String dictionarySearcher_2_1(String word) {
+        String s = "";
+        int limit = 0;
+        for (int i = 0; i < super.getWords().size(); i++) {
+            if (this.levenshteinDistance(word, super.getWords().get(i).getWord_target().replaceAll("\\s+","")) == 0) {
+                s = super.getWords().get(i).getWord_target() + "       " + super.getWords().get(i).getWord_explain() + "\n" + s;
 
+
+            }
+            else if (this.levenshteinDistance(word, super.getWords().get(i).getWord_target().replaceAll("\\s+","")) <= 1) {
+                s = s + super.getWords().get(i).getWord_target() + "       " + super.getWords().get(i).getWord_explain() + "\n";
+                limit = limit + 1;
+            }
+            if (limit > 100) {
+                break;
+            }
+        }
+        return s;
+    }
+
+    public String dictionarySearcher_3_1(String word) {
+        String s = "";
+        int limit = 0;
+        for (int i = 0; i < super.getWords().size(); i++) {
+            if (this.levenshteinDistance(word, super.getWords().get(i).getWord_target().replaceAll("\\s+","")) == 0) {
+                s = super.getWords().get(i).getWord_target()+ "\n" + s;
+
+
+            }
+            else if (this.levenshteinDistance(word, super.getWords().get(i).getWord_target().replaceAll("\\s+","")) <= 1) {
+                s = s + super.getWords().get(i).getWord_target();
+                s = s + "\n";
+                limit = limit + 1;
+            }
+            if (limit > 100) {
+                break;
+            }
+        }
+        return s;
+    }
 }
